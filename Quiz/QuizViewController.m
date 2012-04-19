@@ -10,51 +10,47 @@
 
 @implementation QuizViewController
 
-- (void)didReceiveMemoryWarning
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
+    // Call the init method implemented by the superclass
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // cReate two arrays and make pointers point to them
+        questions = [[NSMutableArray alloc] init];
+        answers = [[NSMutableArray alloc] init];
+        
+        // add questiosn and answers to the arrays
+        [questions addObject:@"What is your name?"];
+        [answers addObject:@"Sir Lancelot the Brave"];
+        
+        [questions addObject:@"What is your quest?"];
+        [answers addObject:@"To find the holy grail"];
+        
+        [questions addObject:@"What is your favorite color?"];
+        [answers addObject:@"Blue"];
+    }
+    
+    // return the address of the new object
+    return self;
 }
-
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
+    - (IBAction)showQuestion:(id)sender
+    {
+        currentQuestionIndex++;
+        
+        if (currentQuestionIndex == [questions count]) {
+            currentQuestionIndex = 0;
+        }
+        
+        NSString *question = [questions objectAtIndex:currentQuestionIndex];
+        NSLog(@"displaying question: %@", question);
+        [questionField setText:question];
+        [answerField setText:@"???"];
+    }
+    
+    - (IBAction)showAnswer:(id)sender
+    {
+        NSString *answer = [answers objectAtIndex:currentQuestionIndex];
+        [answerField setText:answer];
+    }
 
 @end
